@@ -11,16 +11,11 @@ public class Vaccine {
     private String name;
     private double price;
     private Date vaccinDate = new Date();
+    private Date injectAgain = new Date();
 
     public Vaccine() {
     }
 
-    public Vaccine(int id, String name, double price, Date vaccinDate) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.vaccinDate = vaccinDate;
-    }
 
     public int getId() {
         return id;
@@ -53,5 +48,21 @@ public class Vaccine {
 
     public void setVaccinDate(Date vaccinDate) {
         this.vaccinDate = vaccinDate;
+    }
+
+    public Vaccine(int id, String name, double price, Date vaccinDate, Date injectAgain) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.vaccinDate = vaccinDate;
+        this.injectAgain = injectAgain;
+    }
+
+    public Date getInjectAgain() {
+        return injectAgain;
+    }
+
+    public void setInjectAgain(Date injectAgain) {
+        this.injectAgain = injectAgain;
     }
 }

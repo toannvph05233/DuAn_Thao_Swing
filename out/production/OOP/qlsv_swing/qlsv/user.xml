@@ -4,4 +4,8 @@
         <userName>admin</userName>
         <password>admin</password>
     </user>
+    <user>
+        <userName>thao</userName>
+        <password>thao</password>
+    </user>
 </users>

@@ -3,7 +3,9 @@ package qlsv_swing.qlsv.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -55,12 +57,14 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
     private JLabel idVacLabel;
     private JLabel nameVacLabel;
     private JLabel priceVacLabel;
+    private JLabel injectAgainLabel;
     private JLabel titleCustomerLabel;
     private JLabel titleLabel;
 
     private JTextField idVacField;
     private JTextField nameVacField;
     private JTextField priceVacField;
+    private JTextField injectAgainField;
     private JTextField searchField;
 
     private JTextField idField;
@@ -73,7 +77,7 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
     private String[] columnCustomer = new String[]{
             "ID", "Name", "Age", "Address", "Phone"};
     private String[] columnVaccine = new String[]{
-            "ID", "Name", "Price", "Ngày Tiêm"};
+            "ID", "Name", "Price", "Ngày Tiêm", "Ngày Tiêm Lại"};
     // định nghĩa dữ liệu mặc định của bẳng student là rỗng
     private Object data = new Object[][]{};
     private Object data2 = new Object[][]{};
@@ -115,6 +119,7 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         idVacLabel = new JLabel("Id Vaccine");
         nameVacLabel = new JLabel("Name Vaccine");
         priceVacLabel = new JLabel("Price Vaccine");
+        injectAgainLabel = new JLabel("Inject Again");
         titleCustomerLabel = new JLabel("Vaccine Đã Tiêm");
         titleLabel = new JLabel("Danh Sách Khách Hàng Tiêm Chủng");
         Font font = new Font("Arial", Font.BOLD, 24);
@@ -138,6 +143,7 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         idVacField.setEditable(false);
         nameVacField = new JTextField(15);
         priceVacField = new JTextField(15);
+        injectAgainField = new JTextField(15);
 
         // cài đặt các cột và data cho bảng student
         CustomerTable.setModel(new DefaultTableModel((Object[][]) data, columnCustomer));
@@ -181,6 +187,8 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         panel.add(priceVacLabel);
         panel.add(titleCustomerLabel);
         panel.add(searchLabel);
+        panel.add(injectAgainLabel);
+        panel.add(injectAgainField);
 
         panel.add(idField);
         panel.add(nameField);
@@ -210,6 +218,9 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         layout.putConstraint(SpringLayout.NORTH, nameVacLabel, 420, SpringLayout.NORTH, panel);
         layout.putConstraint(SpringLayout.WEST, priceVacLabel, 10, SpringLayout.WEST, panel);
         layout.putConstraint(SpringLayout.NORTH, priceVacLabel, 450, SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.WEST, injectAgainLabel, 10, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.NORTH, injectAgainLabel, 480, SpringLayout.NORTH, panel);
+
         layout.putConstraint(SpringLayout.WEST, titleCustomerLabel, 10, SpringLayout.WEST, panel);
         layout.putConstraint(SpringLayout.NORTH, titleCustomerLabel, 340, SpringLayout.NORTH, panel);
 
@@ -241,6 +252,8 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         layout.putConstraint(SpringLayout.NORTH, nameVacField, 420, SpringLayout.NORTH, panel);
         layout.putConstraint(SpringLayout.WEST, priceVacField, 100, SpringLayout.WEST, panel);
         layout.putConstraint(SpringLayout.NORTH, priceVacField, 450, SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.WEST, injectAgainField, 100, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.NORTH, injectAgainField, 480, SpringLayout.NORTH, panel);
 
         layout.putConstraint(SpringLayout.WEST, jScrollPaneCustomerTable, 300, SpringLayout.WEST, panel);
         layout.putConstraint(SpringLayout.NORTH, jScrollPaneCustomerTable, 60, SpringLayout.NORTH, panel);
@@ -257,12 +270,12 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         layout.putConstraint(SpringLayout.WEST, clearBtn, 80, SpringLayout.WEST, deleteCustomerBtn);
 
         layout.putConstraint(SpringLayout.WEST, addVacBtn, 20, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.NORTH, addVacBtn, 490, SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.NORTH, addVacBtn, 510, SpringLayout.NORTH, panel);
         layout.putConstraint(SpringLayout.WEST, editVacBtn, 130, SpringLayout.WEST, addVacBtn);
-        layout.putConstraint(SpringLayout.NORTH, editVacBtn, 490, SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.NORTH, editVacBtn, 510, SpringLayout.NORTH, panel);
         layout.putConstraint(SpringLayout.WEST, deleteVacBtn, 20, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.NORTH, deleteVacBtn, 530, SpringLayout.NORTH, panel);
-        layout.putConstraint(SpringLayout.NORTH, clearVacBtn, 530, SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.NORTH, deleteVacBtn, 550, SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.NORTH, clearVacBtn, 550, SpringLayout.NORTH, panel);
         layout.putConstraint(SpringLayout.WEST, clearVacBtn, 130, SpringLayout.WEST, deleteVacBtn);
 
 
@@ -346,6 +359,7 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
             idVacField.setText(VaccineTable.getModel().getValueAt(row, 0).toString());
             nameVacField.setText(VaccineTable.getModel().getValueAt(row, 1).toString());
             priceVacField.setText(VaccineTable.getModel().getValueAt(row, 2).toString());
+            injectAgainField.setText(VaccineTable.getModel().getValueAt(row, 3).toString());
             editVacBtn.setEnabled(true);
             deleteVacBtn.setEnabled(true);
             addVacBtn.setEnabled(false);
@@ -361,6 +375,7 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
             vaccines[i][1] = list.get(i).getName();
             vaccines[i][2] = list.get(i).getPrice();
             vaccines[i][3] = formatter.format(list.get(i).getVaccinDate());
+            vaccines[i][4] = formatter.format(list.get(i).getInjectAgain());
         }
         VaccineTable.setModel(new DefaultTableModel(vaccines, columnVaccine));
     }
@@ -386,6 +401,7 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         idVacField.setText("");
         nameVacField.setText("");
         priceVacField.setText("");
+        injectAgainField.setText("");
         // disable Edit and Delete buttons
         editVacBtn.setEnabled(false);
         deleteVacBtn.setEnabled(false);
@@ -411,9 +427,9 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
         addCustomerBtn.setEnabled(false);
     }
 
-    public String getNameSearch(){
+    public String getNameSearch() {
         String name = searchField.getText();
-        if (!name.equals("")){
+        if (!name.equals("")) {
             return name;
         }
         return null;
@@ -453,7 +469,15 @@ public class CustomerView extends JFrame implements ActionListener, ListSelectio
             }
             vaccine.setName(nameVacField.getText().trim());
             vaccine.setPrice(Double.parseDouble(priceVacField.getText().trim()));
+
+            String inputDate = injectAgainField.getText();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            Date date = dateFormat.parse(inputDate);
+            vaccine.setInjectAgain(date);
             return vaccine;
+        } catch (ParseException ex) {
+            showMessage("Ngày không hợp lệ. (VD: 20/11/2022)");
         } catch (Exception e) {
             showMessage(e.getMessage());
             e.printStackTrace();

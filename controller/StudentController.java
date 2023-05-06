@@ -68,7 +68,7 @@ public class StudentController {
             String name = customerView.getNameSearch();
             if (name != null) {
                 customerView.showListCustomers(studentDao.findAllByName(name));
-            }else {
+            } else {
                 customerView.showMessage("chưa nhập name search!");
             }
         }
@@ -76,20 +76,21 @@ public class StudentController {
 
     class showAllCustomerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-                customerView.showListCustomers(studentDao.getListStudents());
+            customerView.showListCustomers(studentDao.getListStudents());
 
         }
     }
+
     class AddVaccineListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Vaccine vaccine = customerView.getVaccineInfo();
-            int idCustomer =  customerView.getIdCustomer();
+            int idCustomer = customerView.getIdCustomer();
             if (vaccine != null && idCustomer != -1) {
-                studentDao.addVaccine(idCustomer,vaccine);
+                studentDao.addVaccine(idCustomer, vaccine);
 //                customerView.showStudent(customer);
                 customerView.showListVaccine(studentDao.findById(idCustomer).getVaccines());
                 customerView.showMessage("Thêm Vaccine thành công!");
-            }else {
+            } else {
                 customerView.showMessage("Không thể thêm vì chưa biết thêm cho customer nào!");
 
             }
@@ -113,19 +114,21 @@ public class StudentController {
             }
         }
     }
+
     class EditVaccineListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Vaccine vaccine = customerView.getVaccineInfo();
-            int idCustomer =  customerView.getIdCustomer();
+            int idCustomer = customerView.getIdCustomer();
             if (vaccine != null && idCustomer != -1) {
-                studentDao.editVaccine(idCustomer,vaccine);
+                studentDao.editVaccine(idCustomer, vaccine);
                 customerView.showListVaccine(studentDao.findById(idCustomer).getVaccines());
                 customerView.showMessage("Cập nhật thành công!");
-            }else {
-                customerView.showMessage("Không thể sửa vì chưa biết sửa cho customer nào!");
+            } else {
+                if (idCustomer == -1) customerView.showMessage("Không thể sửa vì chưa biết sửa cho customer nào!");
             }
         }
     }
+
     /**
      * Lớp DeleteStudentListener
      * chứa cài đặt cho sự kiện click button "Delete"
@@ -147,13 +150,13 @@ public class StudentController {
     class DeleteVaccineListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Vaccine vaccine = customerView.getVaccineInfo();
-            int idCustomer =  customerView.getIdCustomer();
+            int idCustomer = customerView.getIdCustomer();
             if (vaccine != null && idCustomer != -1) {
-                studentDao.deleteVaccine(idCustomer,vaccine);
+                studentDao.deleteVaccine(idCustomer, vaccine);
                 customerView.clearVaccineInfo();
                 customerView.showListVaccine(studentDao.findById(idCustomer).getVaccines());
                 customerView.showMessage("Xóa thành công!");
-            }else {
+            } else {
                 customerView.showMessage("Không thể xóa vì chưa biết xóa cho customer nào!");
             }
         }

@@ -78,6 +78,7 @@ public class CustomerFunc {
             if (vaccines.get(i).getId() == vaccine.getId()) {
                 vaccines.get(i).setName(vaccine.getName());
                 vaccines.get(i).setPrice(vaccine.getPrice());
+                vaccines.get(i).setInjectAgain(vaccine.getInjectAgain());
                 writeListCustomers(listCustomers);
                 break;
             }
